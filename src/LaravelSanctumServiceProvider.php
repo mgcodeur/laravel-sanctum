@@ -2,9 +2,9 @@
 
 namespace Mgcodeur\LaravelSanctum;
 
+use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
 
 class LaravelSanctumServiceProvider extends PackageServiceProvider
 {

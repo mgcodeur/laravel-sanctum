@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class LaravelSanctumCommand extends Command
 {
-    public $signature = 'laravel-sanctum';
+    public $signature = 'laravel-sanctum:install';
 
     public $description = 'My command';
 

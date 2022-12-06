@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    private $tableName;
+
+    public function __construct()
+    {
+        $this->tableName = config('auth-manager.auth.table');
+    }
+
+    public function up()
+    {
+        if(Schema::hasTable($this->tableName)) {
+            Schema::table($this->tableName, function(Blueprint $table) {
+                Schema::hasColumn($this->tableName, 'name') ? $table->renameColumn('name', 'first_name') : $table->string('first_name');
+                $table->string('last_name');
+            });
+        }
+        else {
+            return 'you must create the'.$this->tableName.' first';
+        }
+    }
+
+    public function down()
+    {
+        if(Schema::hasTable($this->tableName)) {
+            Schema::table($this->tableName, function(Blueprint $table) {
+                Schema::hasColumn($this->tableName, 'first_name') ? $table->renameColumn('first_name', 'name') : $table->dropColumn('first_name');
+                $table->dropColumn('last_name');
+            });
+        }
+    }
+};

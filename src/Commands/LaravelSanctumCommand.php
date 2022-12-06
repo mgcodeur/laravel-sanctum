@@ -3,16 +3,18 @@
 namespace Mgcodeur\LaravelSanctum\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class LaravelSanctumCommand extends Command
 {
-    public $signature = 'laravel-sanctum:install';
+    public $signature = 'mg-sanctum:install';
 
     public $description = 'My command';
 
     public function handle(): int
     {
-        $this->comment('All done');
+        Artisan::call('vendor:publish --tag=mg-sanctum-config');
+        $this->info('Config published in /config/auth-manager.php');
 
         return self::SUCCESS;
     }

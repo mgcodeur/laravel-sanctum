@@ -21,7 +21,7 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasRoute('api')
             ->hasTranslations()
-            ->hasMigration('create_laravel-sanctum_table')
+            ->hasMigration('create_migration_for_auth_manager_auth')
             ->hasCommand(LaravelSanctumCommand::class);
     }
 }

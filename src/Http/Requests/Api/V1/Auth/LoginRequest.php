@@ -1,4 +1,5 @@
 <?php
+
 namespace Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -25,19 +26,20 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email",
-            "password" => "required"
+            'email' => 'required|email',
+            'password' => 'required',
         ];
     }
 
     /**
-     * @param Validator $validator
+     * @param  Validator  $validator
+     *
      * @throws HttpResponseException
      */
-    protected function failedValidation(Validator $validator) : HttpResponseException
+    protected function failedValidation(Validator $validator): HttpResponseException
     {
         throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors()
+            'errors' => $validator->errors(),
         ], 422));
     }
 }

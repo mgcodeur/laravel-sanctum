@@ -22,7 +22,7 @@ return new class extends Migration
             });
         }
         else {
-            return 'you must create the'.$this->tableName.' first';
+            die($this->tableName.' not found');
         }
     }
 

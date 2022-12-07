@@ -2,10 +2,10 @@
 
 namespace Mgcodeur\LaravelSanctum;
 
-use Spatie\LaravelPackageTools\Package;
-use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
+use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelSanctumServiceProvider extends PackageServiceProvider
 {
@@ -28,10 +28,11 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
         $this->verifyTrait();
     }
 
-    public function verifyTrait() {
-        if(!LaravelSanctum::manageable()) {
+    public function verifyTrait()
+    {
+        if (! LaravelSanctum::manageable()) {
             throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json([
-                "message" => "You must use the: ". \Mgcodeur\LaravelSanctum\Traits\Manageable::class ." in your: ". config('auth-manager.auth.model') ." Model"
+                'message' => 'You must use the: '.\Mgcodeur\LaravelSanctum\Traits\Manageable::class.' in your: '.config('auth-manager.auth.model').' Model',
             ], 500));
         }
     }

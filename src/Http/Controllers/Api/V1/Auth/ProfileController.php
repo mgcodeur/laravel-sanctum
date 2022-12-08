@@ -1,5 +1,7 @@
 <?php
+
 namespace Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth;
+
 use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\UpdateProfileRequest;
 
 class ProfileController
@@ -18,9 +20,10 @@ class ProfileController
      *      ),
      * )
      **/
-    public function me() {
+    public function me()
+    {
         return response()->json([
-            "data" => auth()->user()
+            'data' => auth()->user(),
         ]);
     }
 
@@ -62,10 +65,12 @@ class ProfileController
      *       )
      * )
      **/
-    public function update(UpdateProfileRequest $request) {
+    public function update(UpdateProfileRequest $request)
+    {
         auth()->user()->update($request->except(['password', 'email', 'avatar']));
+
         return response()->json([
-            "message" => "Modification effectué avec succès"
+            'message' => 'Modification effectué avec succès',
         ], 201);
     }
 }

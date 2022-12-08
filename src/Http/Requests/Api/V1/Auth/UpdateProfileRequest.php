@@ -1,7 +1,9 @@
 <?php
+
 namespace Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth;
-use Illuminate\Foundation\Http\FormRequest;
+
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateProfileRequest extends FormRequest
@@ -25,7 +27,7 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'first_name' => 'required',
-            'last_name' => 'required'
+            'last_name' => 'required',
         ];
     }
 

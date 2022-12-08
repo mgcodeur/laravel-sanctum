@@ -18,11 +18,11 @@ return new class extends Migration
         if(Schema::hasTable($this->tableName)) {
             Schema::table($this->tableName, function(Blueprint $table) {
                 Schema::hasColumn($this->tableName, 'name') ? $table->renameColumn('name', 'first_name') : $table->string('first_name');
-                $table->string('last_name');
+                Schema::hasColumn($this->tableName, 'name') ? $table->string('last_name')->after('name') : $table->string('last_name')->after('first_name');
             });
         }
         else {
-            die($this->tableName.' not found');
+            die('you must create the'.$this->tableName.' first');
         }
     }
 

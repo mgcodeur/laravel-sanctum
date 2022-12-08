@@ -10,6 +10,7 @@ return [
             'prefix' => 'auth',
             'login' => 'login', //-> api/v1/auth/login (you can change the routes if you change prefix and feature in modules)
             'register' => 'register',
+            'profile' => 'profile'
         ],
     ],
 

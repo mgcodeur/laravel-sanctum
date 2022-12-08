@@ -9,8 +9,10 @@ class LaravelSanctum
         return config('auth-manager.auth.model');
     }
 
-    public function manageable()
-    {
+    public function manageable() {
+        if(!$this->getAuthModel()) {
+            return true;
+        }
         return array_key_exists(
             \Mgcodeur\LaravelSanctum\Traits\Manageable::class,
             class_uses($this->getAuthModel())

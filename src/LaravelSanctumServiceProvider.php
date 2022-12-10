@@ -25,10 +25,10 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
             ->hasMigration('create_migration_for_auth_manager_auth')
             ->hasCommand(LaravelSanctumCommand::class);
 
-        $this->verifyTrait();
+        $this->verifyManageableTrait();
     }
 
-    public function verifyTrait()
+    public function verifyManageableTrait()
     {
         if (! LaravelSanctum::manageable()) {
             throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json([

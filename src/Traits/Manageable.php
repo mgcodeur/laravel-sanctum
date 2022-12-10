@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationLink;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 
 trait Manageable
@@ -17,8 +18,10 @@ trait Manageable
 
     public function sendEmailVerificationLink()
     {
-        $this->attributes['verification_hash'] = $this->generateVerificationHash();
-        Mail::to('mgcodeur@gmail.com')->send(new SendVerificationLink($this));
+        match (config('auth-manager.use_jobs')) {
+            true => AuthEmailVerificationLink::dispatch($this),
+            false => Mail::to($this->email)->send(new SendVerificationLink($this)),
+        };
     }
 
     public function generateVerificationHash()
@@ -31,6 +34,6 @@ trait Manageable
         return env('APP_URL').'/'.config('auth-manager.routes.prefix')
         .'/'.config('auth-manager.routes.auth.prefix').'/'
         .config('auth-manager.routes.auth.verify_link').'/'
-        .$this->verification_hash;
+        .$this->generateVerificationHash();
     }
 }

@@ -1,8 +1,3 @@
-
-<a href="{{$user->generateVerificationLink()}}">Vérifier l'utilisateur</a>
-
-<br>
-
+<a href="{{$user->generateVerificationLink()}}">Verifier l'utilisateur</a>
 <hr>
-
-{{ $user->generateVerificationLink() }}
+Merci

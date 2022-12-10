@@ -2,10 +2,10 @@
 
 namespace Mgcodeur\LaravelSanctum;
 
-use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
-use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
 use Spatie\LaravelPackageTools\Package;
+use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
 
 class LaravelSanctumServiceProvider extends PackageServiceProvider
 {
@@ -25,10 +25,10 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
             ->hasMigration('create_migration_for_auth_manager_auth')
             ->hasCommand(LaravelSanctumCommand::class);
 
-        $this->verifyTrait();
+        $this->verifyManageableTrait();
     }
 
-    public function verifyTrait()
+    public function verifyManageableTrait()
     {
         if (! LaravelSanctum::manageable()) {
             throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json([

@@ -1,7 +1,8 @@
 <?php
+
 namespace Mgcodeur\LaravelSanctum\Mail\Api\Auth;
+
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -10,7 +11,9 @@ use Illuminate\Queue\SerializesModels;
 class SendVerificationLink extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $user;
+
     /**
      * Create a new message instance.
      *

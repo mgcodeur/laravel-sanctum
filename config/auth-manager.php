@@ -11,7 +11,7 @@ return [
             'login' => 'login', //-> api/v1/auth/login (you can change the routes if you change prefix and feature_name in modules)
             'register' => 'register',
             'profile' => 'profile',
-            'verify_link' => 'verify-link'
+            'verify_link' => 'verify-link',
         ],
     ],
 
@@ -27,8 +27,8 @@ return [
             // choose only one
             'type' => [
                 'link' => true, //send a link
-                'otp' => false //send a code with customisable length to user
-            ]
-        ]
+                'otp' => false, //send a code with customisable length to user
+            ],
+        ],
     ],
 ];

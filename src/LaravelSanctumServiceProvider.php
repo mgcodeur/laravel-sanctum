@@ -3,8 +3,8 @@
 namespace Mgcodeur\LaravelSanctum;
 
 use Mgcodeur\LaravelSanctum\Commands\LaravelSanctumCommand;
-use Spatie\LaravelPackageTools\Package;
 use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelSanctumServiceProvider extends PackageServiceProvider

@@ -3,9 +3,9 @@
 namespace Mgcodeur\LaravelSanctum\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Crypt;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 
 trait Manageable
@@ -15,16 +15,19 @@ trait Manageable
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function sendEmailVerificationLink() {
+    public function sendEmailVerificationLink()
+    {
         $this->attributes['verification_hash'] = $this->generateVerificationHash();
         Mail::to('mgcodeur@gmail.com')->send(new SendVerificationLink($this));
     }
 
-    public function generateVerificationHash() {
+    public function generateVerificationHash()
+    {
         return Crypt::encryptString($this->email.'-expiration:'.Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')));
     }
 
-    public function generateVerificationLink(){
+    public function generateVerificationLink()
+    {
         return env('APP_URL').'/'.config('auth-manager.routes.prefix')
         .'/'.config('auth-manager.routes.auth.prefix').'/'
         .config('auth-manager.routes.auth.verify_link').'/'

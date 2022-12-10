@@ -1,29 +1,30 @@
 <?php
-namespace Mgcodeur\LaravelSanctum\Observers\Api\Auth;
 
-use Illuminate\Support\Facades\Mail;
-use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
+namespace Mgcodeur\LaravelSanctum\Observers\Api\Auth;
 
 class UserObserver
 {
-    public function creating($user) {
+    public function creating($user)
+    {
     }
+
     /**
      * Handle the User "created" event.
+     *
      * @return void
      */
     public function created($user)
     {
         $user->sendEmailVerificationLink();
-
     }
 
-    public function updating($user) {
-
+    public function updating($user)
+    {
     }
 
     /**
      * Handle the User "updated" event.
+     *
      * @return void
      */
     public function updated($user)
@@ -33,6 +34,7 @@ class UserObserver
 
     /**
      * Handle the User "deleted" event.
+     *
      * @return void
      */
     public function deleted($user)
@@ -42,6 +44,7 @@ class UserObserver
 
     /**
      * Handle the User "restored" event.
+     *
      * @return void
      */
     public function restored($user)
@@ -51,6 +54,7 @@ class UserObserver
 
     /**
      * Handle the User "force deleted" event.
+     *
      * @return void
      */
     public function forceDeleted($user)
@@ -58,8 +62,7 @@ class UserObserver
         //
     }
 
-
-    private function sendVerificationLink($user) {
-
+    private function sendVerificationLink($user)
+    {
     }
 }

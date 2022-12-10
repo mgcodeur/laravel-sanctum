@@ -15,7 +15,8 @@ class LaravelSanctumCommand extends Command
     {
         Artisan::call('vendor:publish --tag=mg-sanctum-config');
         $this->info('Config published in /config/auth-manager.php');
-
+        Artisan::call('vendor:publish --tag=mg-sanctum-migrations');
+        $this->info('Migration published in /database/migrations');
         return self::SUCCESS;
     }
 }

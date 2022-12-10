@@ -1,31 +1,21 @@
-## Brouillons | Draft (Under development)
+## About
+This package is made to facilitate the implementation of member management with laravel sanctum
 
-### À propos
-- Ce package est construit afin de faciliter, la mise en place d'un espace membre avec gestion de rôle & permissions avec laravel (en utilisant laravel sanctum).
-- Version Api configurable via un dashboard
-- Api (Login, Register, Update Profile & avatar, CRUD roles + permissions)
+## Installation step
 
-### Installation
-- composer install
-- php artisan mg-sanctum:install
-- php artisan queue:table
-- in env 
-
-````javascript
+ 1. `composer require mgcodeur/laravel-sanctum`
+ 2. `php artisan mg-sanctum:install` 
+ 3. `php artisan queue:table`
+ 4. in your .env change set QUEUE_CONNECTION section to
+```javascript
 QUEUE_CONNECTION=database
-````
-- php artisan migrate
-
-### Étape à ne pas oublier
-- Ajouter first_name & last_name parmi les champs fillable
-- use Manageable trait in auth model
-
-### Email verification
-- Mettre YourUserModel::observe(\Mgcodeur\LaravelSanctum\Observers\Api\Auth\UserObserver::class) in the boot method of EventServiceProvider (remplacer YourModelUser par votre Auth model)
-
-- configure your mail informations
-
-````javascript
+```
+ 5. `php artisan migrate`
+ 6. add `first_name` and `last_name` to fillable property
+ 7. use `Manageable` trait in yout User or Custom Auth Model
+ 8. add `LaravelSanctum::getAuthModel()::observe(\Mgcodeur\LaravelSanctum\Observers\Api\Auth\UserObserver::class);` in the boot method of EventServiceProvider
+ 9. in your .env configure this section
+```javascript
 MAIL_MAILER=your_mailer
 MAIL_HOST=your_smtp_host
 MAIL_PORT=your_mail_port
@@ -34,21 +24,29 @@ MAIL_PASSWORD=your_mail_password
 MAIL_ENCRYPTION=your_mail_encryption
 MAIL_FROM_ADDRESS=your_mail_from_address
 MAIL_FROM_NAME="${APP_NAME}"
-
-````
-
-### Si on veut utiliser l5-swagger
-- Ajouter @OAInfo() au controlleur de base, si on veut utiliser l5 swagger et générer la documentation
-- php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
-- php artisan l5-swagger:generate
-- décommenter cette ligne dans config/l5-swagger.php section securityDefinitions & dans securitySchemes
-
-
+```
+ 12.  If you want use swagger you must add this in Http/Controller.php
+ ```javascript
+ /**
+* @OA\Info(
+* version="your api version ex: 1.0.0",
+* title="Your app Api Documentation",
+* description="A little description",
+* @OA\Contact(
+* email="youremail@xxx.xx"
+* )
+* )
+*/
+```
+ 14. `php artisan l5-swagger:generate`
+ 15. `php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"`
+ 16. Uncomment this line in `config/l5-swagger.php`
 ````javascript
-'sanctum' => [ // Unique name of security
-    'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
-    'description' => 'Enter token in format (Bearer <token>)',
-    'name' => 'Authorization', // The name of the header or query parameter to be used.
-    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
+'sanctum'  => [ // Unique name of security
+'type'  =>  'apiKey',  // Valid values are "basic", "apiKey" or "oauth2".
+'description'  =>  'Enter token in format (Bearer <token>)',
+'name'  =>  'Authorization',  // The name of the header or query parameter to be used.
+'in'  =>  'header',  // The location of the API key. Valid values are "query" or "header".
 ],
 ````
+ 18. `php artisan l5-swagger:generate`

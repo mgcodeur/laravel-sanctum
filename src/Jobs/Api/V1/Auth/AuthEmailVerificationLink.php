@@ -1,12 +1,13 @@
 <?php
+
 namespace Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth;
+
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 
 class AuthEmailVerificationLink implements ShouldQueue
@@ -14,6 +15,7 @@ class AuthEmailVerificationLink implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+
     /**
      * Create a new job instance.
      *

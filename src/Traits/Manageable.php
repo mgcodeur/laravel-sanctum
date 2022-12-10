@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationLink;
+use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 
 trait Manageable
 {
@@ -16,7 +16,8 @@ trait Manageable
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function sendEmailVerificationLink() {
+    public function sendEmailVerificationLink()
+    {
         match (config('auth-manager.use_jobs')) {
             true => AuthEmailVerificationLink::dispatch($this),
             false => Mail::to($this->email)->send(new SendVerificationLink($this)),

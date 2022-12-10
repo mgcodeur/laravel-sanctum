@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class SendVerificationLink extends Mailable
 {
     use Queueable, SerializesModels;
-
+    
     public $user;
 
     /**
@@ -21,7 +21,7 @@ class SendVerificationLink extends Mailable
      */
     public function __construct($user)
     {
-        $this->user = $user;
+        $this->user = $user;   
     }
 
     /**

@@ -8,6 +8,12 @@
 ### Installation
 - composer install
 - php artisan mg-sanctum:install
+- php artisan queue:table
+- in env 
+
+````javascript
+QUEUE_CONNECTION=database
+````
 - php artisan migrate
 
 ### Étape à ne pas oublier

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'use_jobs' => true, //use queue and jobs for email verification,
     'routes' => [
         //prefix of routes
         'prefix' => 'api/v1',
@@ -23,7 +24,7 @@ return [
         //user verification method
         'verification' => [
             'expire_in' => 3600,
-            'use_jobs' => true, //use queue and jobs for email verification
+
             // choose only one
             'type' => [
                 'link' => true, //send a link

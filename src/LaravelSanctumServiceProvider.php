@@ -23,6 +23,7 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
             ->hasRoute('api')
             ->hasTranslations()
             ->hasMigration('create_migration_for_auth_manager_auth')
+            ->hasMigration('create_otp_codes_table')
             ->hasCommand(LaravelSanctumCommand::class);
 
         $this->verifyManageableTrait();
@@ -31,9 +32,7 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
     public function verifyManageableTrait()
     {
         if (! LaravelSanctum::manageable()) {
-            throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json([
-                'message' => 'You must use the: '.\Mgcodeur\LaravelSanctum\Traits\Manageable::class.' in your: '.config('auth-manager.auth.model').' Model',
-            ], 500));
+            die('You must use the: '.\Mgcodeur\LaravelSanctum\Traits\Manageable::class.' in your: '.config('auth-manager.auth.model').' Model');
         }
     }
 }

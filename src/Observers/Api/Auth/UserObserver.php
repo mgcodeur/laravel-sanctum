@@ -6,6 +6,7 @@ class UserObserver
 {
     public function creating($user)
     {
+
     }
 
     /**
@@ -15,7 +16,10 @@ class UserObserver
      */
     public function created($user)
     {
-        $user->sendEmailVerificationLink();
+        match (config('auth-manager.auth.verification.type')) {
+            'otp' => $user->sendEmailVerificationCode(),
+            default => $user->sendEmailVerificationLink(),
+        };
     }
 
     public function updating($user)

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\LoginController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\ProfileController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\RegisterController;
+use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\VerifyCodeController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\VerifyLinkController;
 
 Route::prefix(config('auth-manager.routes.auth.prefix'))->group(function () {
@@ -13,6 +14,9 @@ Route::prefix(config('auth-manager.routes.auth.prefix'))->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get(config('auth-manager.routes.auth.profile'), [ProfileController::class, 'me']);
         Route::put(config('auth-manager.routes.auth.profile'), [ProfileController::class, 'update']);
+
+        // verify otp code
+        Route::post(config('auth-manager.routes.auth.verify_code'), [VerifyCodeController::class, 'verify']);
     });
 
     Route::get(config('auth-manager.routes.auth.verify_link').'/{token}', [VerifyLinkController::class, 'verify']);

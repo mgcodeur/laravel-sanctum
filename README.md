@@ -5,14 +5,14 @@ This package is made to facilitate the implementation of member management with 
 
  1. `composer require mgcodeur/laravel-sanctum`
  2. `php artisan mg-sanctum:install` 
- 3. `php artisan queue:table`
+ 3. use `Manageable` trait in yout User or Custom Auth Model
  4. in your .env change set QUEUE_CONNECTION section to
 ```javascript
 QUEUE_CONNECTION=database
 ```
- 5. `php artisan migrate`
+ 5. `php artisan queue:table` 
  6. add `first_name` and `last_name` to fillable property
- 7. use `Manageable` trait in yout User or Custom Auth Model
+ 7. `php artisan migrate`
  8. add `LaravelSanctum::getAuthModel()::observe(\Mgcodeur\LaravelSanctum\Observers\Api\Auth\UserObserver::class);` in the boot method of EventServiceProvider
  9. in your .env configure this section
 ```javascript

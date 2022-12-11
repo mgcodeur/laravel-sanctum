@@ -2,7 +2,7 @@
 
 namespace Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth;
 
-use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\UpdateProfileRequest;
+use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\VerifyOtpCodeRequest;
 
 class ProfileController
 {
@@ -65,7 +65,7 @@ class ProfileController
      *       )
      * )
      **/
-    public function update(UpdateProfileRequest $request)
+    public function update(VerifyOtpCodeRequest $request)
     {
         auth()->user()->update($request->except(['password', 'email', 'avatar']));
 

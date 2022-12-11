@@ -6,30 +6,26 @@ return [
         //prefix of routes
         'prefix' => 'api/v1',
 
-        //for auth module
+        //routes for auth
         'auth' => [
             'prefix' => 'auth',
             'login' => 'login', //-> api/v1/auth/login (you can change the routes if you change prefix and feature_name in modules)
             'register' => 'register',
             'profile' => 'profile',
             'verify_link' => 'verify-link',
+            'verify_code' => 'verify-code',
         ],
     ],
 
     'auth' => [
-        //model used by auth
+        //model used for authentication
         'model' => App\Models\User::class,
         'table' => 'users',
 
         //user verification method
         'verification' => [
-            'expire_in' => 3600,
-
-            // choose only one
-            'type' => [
-                'link' => true, //send a link
-                'otp' => false, //send a code with customisable length to user
-            ],
+            'expire_in' => 3600, //in seconds
+            'type' => 'otp', //possible value: otp, link
         ],
     ],
 ];

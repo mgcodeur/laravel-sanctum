@@ -6,7 +6,6 @@ class UserObserver
 {
     public function creating($user)
     {
-
     }
 
     /**

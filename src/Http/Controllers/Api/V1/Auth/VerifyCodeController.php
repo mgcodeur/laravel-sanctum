@@ -8,14 +8,17 @@ class VerifyCodeController
 {
     public function verify(VerifyOtpCodeRequest $request)
     {
-        if(auth()->user()->email_verified_at)
+        if (auth()->user()->email_verified_at) {
             return response()->json([
-                'message' => 'Email already verified'
+                'message' => 'Email already verified',
             ], 200);
+        }
 
-        if(auth()->user()->verifyOtpCode($request->code)) return response()->json([
-            'message' => 'Code verified successfully'
-        ]);
+        if (auth()->user()->verifyOtpCode($request->code)) {
+            return response()->json([
+                'message' => 'Code verified successfully',
+            ]);
+        }
         abort(422, 'Code verification failed');
     }
 }

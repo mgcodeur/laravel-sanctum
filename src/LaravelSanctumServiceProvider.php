@@ -32,7 +32,7 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
     public function verifyManageableTrait()
     {
         if (! LaravelSanctum::manageable()) {
-            die('You must use the: '.\Mgcodeur\LaravelSanctum\Traits\Manageable::class.' in your: '.config('auth-manager.auth.model').' Model');
+            exit('You must use the: '.\Mgcodeur\LaravelSanctum\Traits\Manageable::class.' in your: '.config('auth-manager.auth.model').' Model');
         }
     }
 }

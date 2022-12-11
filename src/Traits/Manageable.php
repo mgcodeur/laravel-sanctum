@@ -3,15 +3,15 @@
 namespace Mgcodeur\LaravelSanctum\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Crypt;
 use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationCode;
-use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationCode;
-use Mgcodeur\LaravelSanctum\Models\OtpCode;
-use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationLink;
+use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationCode;
+use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
+use Mgcodeur\LaravelSanctum\Models\OtpCode;
 
 trait Manageable
 {
@@ -55,13 +55,11 @@ trait Manageable
 
         $user = LaravelSanctum::getAuthModel()::where('email', self::getHashEmail($token))->first();
 
-        if (! $user)
-        {
+        if (! $user) {
             exit('User not found');
         }
 
-        if ($user->email_verified_at)
-        {
+        if ($user->email_verified_at) {
             exit('User already verified');
         }
 
@@ -80,15 +78,20 @@ trait Manageable
         $this->otpCode()->create([
             'code' => $code,
             'user_id' => $this->id,
-            'expired_at' => Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in'))
+            'expired_at' => Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')),
         ]);
+
         return $code;
     }
 
     public function verifyOtpCode($code)
     {
-        if(!$this->otpCode()->count()) return false;
-        if(!$this->otpCode->code === $code || Carbon::now() > $this->otpCode->expired_at || $this->email_verified_at) return false;
+        if (! $this->otpCode()->count()) {
+            return false;
+        }
+        if (! $this->otpCode->code === $code || Carbon::now() > $this->otpCode->expired_at || $this->email_verified_at) {
+            return false;
+        }
 
         $this->email_verified_at = now();
         $this->save();
@@ -113,7 +116,6 @@ trait Manageable
     {
         return $this->hasOne(OtpCode::class);
     }
-
 
     /**
      * Models Helpers.

@@ -17,7 +17,10 @@ Route::prefix(config('auth-manager.routes.auth.prefix'))->group(function () {
 
         // verify otp code
         Route::post(config('auth-manager.routes.auth.verify_code'), [VerifyCodeController::class, 'verify']);
+        Route::post(config('auth-manager.routes.auth.resend_code'), [VerifyCodeController::class, 'resend']);
     });
 
     Route::get(config('auth-manager.routes.auth.verify_link').'/{token}', [VerifyLinkController::class, 'verify']);
+
+    Route::post(config('auth-manager.routes.auth.resend_link'), [VerifyLinkController::class, 'resend']);
 });

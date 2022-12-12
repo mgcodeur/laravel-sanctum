@@ -16,7 +16,7 @@ class LaravelSanctum
         }
 
         return array_key_exists(
-            \Mgcodeur\LaravelSanctum\Traits\Manageable::class,
+            \Mgcodeur\LaravelSanctum\Traits\Verifiable::class,
             class_uses($this->getAuthModel())
         );
     }

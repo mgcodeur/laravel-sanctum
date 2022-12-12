@@ -5,7 +5,7 @@ This package is made to facilitate the implementation of member management with 
 
  1. `composer require mgcodeur/laravel-sanctum`
  2. `php artisan mg-sanctum:install` 
- 3. use `Manageable` trait in yout User or Custom Auth Model
+ 3. use `Manageable` and `Verifiable` trait in your User or Custom Auth Model
  4. in your .env change set QUEUE_CONNECTION section to
 ```javascript
 QUEUE_CONNECTION=database

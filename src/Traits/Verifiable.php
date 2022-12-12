@@ -76,8 +76,12 @@ trait Verifiable
 
     public function verifyOtpCode($code)
     {
-        if (! $this->otpCode()->count()) return false;
-        if (! $this->otpCode->code === $code || Carbon::now() > $this->otpCode->expired_at || $this->email_verified_at) return false;
+        if (! $this->otpCode()->count()) {
+            return false;
+        }
+        if (! $this->otpCode->code === $code || Carbon::now() > $this->otpCode->expired_at || $this->email_verified_at) {
+            return false;
+        }
 
         $this->email_verified_at = now();
         $this->save();

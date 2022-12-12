@@ -36,15 +36,17 @@ class VerifyCodeController
      **/
     public function verify(VerifyOtpCodeRequest $request)
     {
-        if (auth()->user()->email_verified_at)
+        if (auth()->user()->email_verified_at) {
             return response()->json([
                 'message' => 'Email already verified',
             ], 400);
+        }
 
-        if (auth()->user()->verifyOtpCode($request->code))
+        if (auth()->user()->verifyOtpCode($request->code)) {
             return response()->json([
                 'message' => 'Code verified successfully',
             ]);
+        }
         abort(422, 'Code verification failed');
     }
 
@@ -69,10 +71,11 @@ class VerifyCodeController
      **/
     public function resend()
     {
-        if (auth()->user()->email_verified_at)
+        if (auth()->user()->email_verified_at) {
             return response()->json([
                 'message' => 'Email already verified',
             ], 400);
+        }
 
         auth()->user()->sendEmailVerificationCode();
 

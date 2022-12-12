@@ -1,12 +1,14 @@
 <?php
 
 namespace Mgcodeur\LaravelSanctum\Traits;
+
 use Illuminate\Support\Facades\Hash;
 use Mgcodeur\LaravelSanctum\Models\OtpCode;
 
 trait Manageable
 {
     use Verifiable;
+
     /**
      * Models setters.
      */

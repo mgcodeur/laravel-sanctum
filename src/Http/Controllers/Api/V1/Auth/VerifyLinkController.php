@@ -24,7 +24,7 @@ class VerifyLinkController
             'email' => 'required|email',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 400);
@@ -32,14 +32,13 @@ class VerifyLinkController
 
         $user = LaravelSanctum::getAuthModel()::where('email', $request->email)->first();
 
-        if($user->hasVerifiedEmail()) {
+        if ($user->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'Email already verified',
             ], 400);
         }
 
-        if(!$user)
-        {
+        if (! $user) {
             return response()->json([
                 'message' => 'User not found',
             ], 404);

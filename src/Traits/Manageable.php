@@ -2,26 +2,24 @@
 
 namespace Mgcodeur\LaravelSanctum\Traits;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Hash;
-use Mgcodeur\LaravelSanctum\Models\OtpCode;
+use Mgcodeur\LaravelSanctum\Models\SocialAccount;
 
 trait Manageable
 {
     use Verifiable;
 
-    /**
-     * Models setters.
-     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
 
     /**
-     * Models relationships.
+     * @return HasMany
      */
-    public function otpCode()
+    public function socialAccounts() : HasMany
     {
-        return $this->hasOne(OtpCode::class);
+        return $this->hasMany(SocialAccount::class);
     }
 }

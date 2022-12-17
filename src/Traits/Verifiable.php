@@ -3,6 +3,7 @@
 namespace Mgcodeur\LaravelSanctum\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
@@ -10,25 +11,55 @@ use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationCode;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationLink;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationCode;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationLink;
+use Mgcodeur\LaravelSanctum\Models\Verification;
 
 trait Verifiable
 {
     /**
-     * Verification link helpers.
+     * @return MorphOne
+     */
+    public function verification() : MorphOne
+    {
+        return $this->morphOne(Verification::class, 'verifiable');
+    }
+
+    /** Verification link helpers. **/
+    /**
+     * @return void
      */
     public function sendEmailVerificationLink()
     {
-        match (config('auth-manager.use_jobs')) {
-            true => AuthEmailVerificationLink::dispatch($this),
-            false => Mail::to($this->email)->send(new SendVerificationLink($this)),
-        };
+        if(!$this->hasVerifiedEmail()) {
+            match (config('auth-manager.use_jobs')) {
+                true => AuthEmailVerificationLink::dispatch($this),
+                false => Mail::to($this->email)->send(new SendVerificationLink($this)),
+            };
+        }
     }
 
+    /**
+     * @return string
+     */
     public function generateVerificationHash()
     {
-        return Crypt::encryptString($this->email.'-expiration:'.Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')));
+        if($this->verification()->exists()) {
+            $this->verification->delete();
+        }
+
+        $verification = Verification::create([
+            'verifiable_id' => $this->id,
+            'verifiable_type' => get_class($this),
+            'name' => 'email_hash',
+            'content' => Crypt::encryptString($this->email),
+            'expires_at' => Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')),
+        ]);
+
+        return $verification->content;
     }
 
+    /**
+     * @return string
+     */
     public function generateVerificationLink()
     {
         return env('APP_URL').'/'.config('auth-manager.routes.prefix')
@@ -37,78 +68,73 @@ trait Verifiable
             .$this->generateVerificationHash();
     }
 
-    public static function VerifyUserLink($token)
+    /**
+     * @param string $token
+     * @return boolean|void
+     */
+    public static function VerifyUserLink(string $token)
     {
-        if (Carbon::now() > self::getHashExpiration($token)) {
-            exit('Link expired');
-        }
+        $verification = Verification::where('content', $token)->first();
 
-        $user = LaravelSanctum::getAuthModel()::where('email', self::getHashEmail($token))->first();
+        if (Carbon::now()->greaterThan($verification->expires_at)) exit('Link expired');
 
-        if (! $user) {
-            exit('User not found');
-        }
+        $user = self::where('email', Crypt::decryptString($verification->content))->first();
 
-        if ($user->email_verified_at) {
-            exit('User already verified');
-        }
+        if (! $user) exit('User not found');
+
+        if ($user->email_verified_at) exit('User already verified');
 
         $user->email_verified_at = now();
         $user->save();
 
+        $user->verification()->delete();
+
         return true;
     }
 
-    /**
-     * Verification code (otp) helpers.
-     */
-    public function generateVerificationCode()
+    /** Verification code (otp) helpers. **/
+    public function generateVerificationCode(): string
     {
+        if($this->verification()->exists()) $this->verification->delete();
+
         $code = random_int(100000, 999999);
-        $this->otpCode()->create([
-            'code' => $code,
-            'user_id' => $this->id,
-            'expired_at' => Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')),
+
+        $verification = Verification::create([
+            'verifiable_id' => $this->id,
+            'verifiable_type' => get_class($this),
+            'name' => 'otp_hash',
+            'content' => Crypt::encryptString($code),
+            'expires_at' => Carbon::now()->addSecond(config('auth-manager.auth.verification.expire_in')),
         ]);
 
-        return $code;
+        return Crypt::decryptString($verification->content);
     }
 
-    public function verifyOtpCode($code)
+    public function verifyOtpCode($code): bool
     {
-        if (! $this->otpCode()->count()) {
-            return false;
-        }
-        if (! $this->otpCode->code === $code || Carbon::now() > $this->otpCode->expired_at || $this->email_verified_at) {
-            return false;
-        }
+        if (! $this->verification()->exists()) return false;
+
+        if (
+            !Crypt::decryptString($this->verification->content) === $code ||
+            Carbon::now()->greaterThan($this->verification->expired_at) ||
+            $this->email_verified_at
+        ) return false;
 
         $this->email_verified_at = now();
         $this->save();
 
-        $this->otpCode()->delete();
+        $this->verification()->delete();
 
         return true;
     }
 
-    public function sendEmailVerificationCode()
+    public function sendEmailVerificationCode(): void
     {
-        match (config('auth-manager.use_jobs')) {
-            true => AuthEmailVerificationCode::dispatch($this),
-            false => Mail::to($this->email)->send(new SendVerificationCode($this)),
-        };
-    }
-
-    /**
-     * Models Helpers.
-     */
-    private static function getHashExpiration($token)
-    {
-        return explode('-expiration:', Crypt::decryptString($token))[1];
-    }
-
-    private static function getHashEmail($token)
-    {
-        return explode('-expiration:', Crypt::decryptString($token))[0];
+        if(!$this->hasVerifiedEmail()) {
+            match (config('auth-manager.use_jobs')) {
+                true => AuthEmailVerificationCode::dispatch($this),
+                false => Mail::to($this->email)->send(new SendVerificationCode($this)),
+            };
+        }
     }
 }

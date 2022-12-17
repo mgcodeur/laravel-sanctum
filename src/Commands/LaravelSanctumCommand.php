@@ -9,7 +9,7 @@ class LaravelSanctumCommand extends Command
 {
     public $signature = 'mg-sanctum:install';
 
-    public $description = 'My command';
+    public $description = 'MgCodeur Laravel Sanctum Install command';
 
     public function handle(): int
     {

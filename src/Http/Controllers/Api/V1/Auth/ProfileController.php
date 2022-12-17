@@ -2,7 +2,8 @@
 
 namespace Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth;
 
-use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\VerifyOtpCodeRequest;
+use Illuminate\Http\Request;
+use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\UpdateProfileRequest;
 
 class ProfileController
 {
@@ -36,18 +37,9 @@ class ProfileController
      *      description="Retourne les informations de l'utilisateur une fois modifié",
      *
      *      @OA\Parameter(
-     *         name="first_name",
+     *         name="name",
      *         in="query",
-     *         description="Votre Nom (Ex: Jimmy)",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *      ),
-     *      @OA\Parameter(
-     *         name="last_name",
-     *         in="query",
-     *         description="Votre Prénom (Ex: Raphaël)",
+     *         description="Votre Nom Complet (Ex: Jimmy Raphaël)",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
@@ -65,7 +57,7 @@ class ProfileController
      *       )
      * )
      **/
-    public function update(VerifyOtpCodeRequest $request)
+    public function update(UpdateProfileRequest $request)
     {
         auth()->user()->update($request->except(['password', 'email', 'avatar']));
 

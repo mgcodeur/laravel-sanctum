@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'use_jobs' => false, //use queue and jobs for email verification,
+    'use_jobs' => true, //use queue and jobs for email verification,
     'routes' => [
         //prefix of routes
         'prefix' => 'api/v1',
@@ -16,6 +16,11 @@ return [
             'verify_code' => 'verify-code',
             'resend_link' => 'resend-link',
             'resend_code' => 'resend-code',
+
+            'socialite' => [
+                'redirect' => 'redirect',
+                'callback' => 'callback',
+            ],
         ],
     ],
 
@@ -27,7 +32,7 @@ return [
         //user verification method
         'verification' => [
             'expire_in' => 3600, //in seconds
-            'type' => 'link', //possible value: otp, link
+            'type' => 'otp', //possible value: otp, link
         ],
     ],
 ];

@@ -15,18 +15,9 @@ class RegisterController
      *      summary="Api Register (Pour inscrire l'utilisateur au plateforme)",
      *      description="Retourne le token d'accès (à utiliser comme un bearer token)",
      *      @OA\Parameter(
-     *         name="first_name",
+     *         name="name",
      *         in="query",
      *         description="Votre nom (Ex: John)",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *      ),
-     *      @OA\Parameter(
-     *         name="last_name",
-     *         in="query",
-     *         description="Votre prenom (Ex: Doe)",
      *         required=true,
      *         @OA\Schema(
      *             type="string"

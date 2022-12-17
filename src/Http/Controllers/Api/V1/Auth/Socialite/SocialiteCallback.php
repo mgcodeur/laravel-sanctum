@@ -3,7 +3,6 @@
 namespace Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\Socialite;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
 use Mgcodeur\LaravelSanctum\Http\Resources\Api\Auth\LoginResource;

@@ -4,7 +4,6 @@ namespace Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth;
 
 use Illuminate\Http\Request;
 use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\UpdateProfileRequest;
-use Mgcodeur\LaravelSanctum\Http\Requests\Api\V1\Auth\VerifyOtpCodeRequest;
 
 class ProfileController
 {

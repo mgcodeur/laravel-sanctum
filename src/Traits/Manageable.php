@@ -18,7 +18,7 @@ trait Manageable
     /**
      * @return HasMany
      */
-    public function socialAccounts() : HasMany
+    public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
     }

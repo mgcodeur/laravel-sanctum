@@ -14,11 +14,11 @@ class SocialiteRedirectToProvider
             ->redirectUrl($request->input('redirect_url'))
             ->redirect()
             ->getTargetUrl();
-            
+
         return response()->json([
             'data' => [
-                'redirect_url' => $redirectUrl
-            ]
+                'redirect_url' => $redirectUrl,
+            ],
         ]);
     }
 }

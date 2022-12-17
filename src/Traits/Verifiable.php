@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
-use Mgcodeur\LaravelSanctum\Facades\LaravelSanctum;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationCode;
 use Mgcodeur\LaravelSanctum\Jobs\Api\V1\Auth\AuthEmailVerificationLink;
 use Mgcodeur\LaravelSanctum\Mail\Api\Auth\SendVerificationCode;
@@ -18,7 +17,7 @@ trait Verifiable
     /**
      * @return MorphOne
      */
-    public function verification() : MorphOne
+    public function verification(): MorphOne
     {
         return $this->morphOne(Verification::class, 'verifiable');
     }
@@ -29,7 +28,7 @@ trait Verifiable
      */
     public function sendEmailVerificationLink()
     {
-        if(!$this->hasVerifiedEmail()) {
+        if (! $this->hasVerifiedEmail()) {
             match (config('auth-manager.use_jobs')) {
                 true => AuthEmailVerificationLink::dispatch($this),
                 false => Mail::to($this->email)->send(new SendVerificationLink($this)),
@@ -42,7 +41,7 @@ trait Verifiable
      */
     public function generateVerificationHash()
     {
-        if($this->verification()->exists()) {
+        if ($this->verification()->exists()) {
             $this->verification->delete();
         }
 
@@ -69,20 +68,26 @@ trait Verifiable
     }
 
     /**
-     * @param string $token
-     * @return boolean|void
+     * @param  string  $token
+     * @return bool|void
      */
     public static function VerifyUserLink(string $token)
     {
         $verification = Verification::where('content', $token)->first();
 
-        if (Carbon::now()->greaterThan($verification->expires_at)) exit('Link expired');
+        if (Carbon::now()->greaterThan($verification->expires_at)) {
+            exit('Link expired');
+        }
 
         $user = self::where('email', Crypt::decryptString($verification->content))->first();
 
-        if (! $user) exit('User not found');
+        if (! $user) {
+            exit('User not found');
+        }
 
-        if ($user->email_verified_at) exit('User already verified');
+        if ($user->email_verified_at) {
+            exit('User already verified');
+        }
 
         $user->email_verified_at = now();
         $user->save();
@@ -95,7 +100,9 @@ trait Verifiable
     /** Verification code (otp) helpers. **/
     public function generateVerificationCode(): string
     {
-        if($this->verification()->exists()) $this->verification->delete();
+        if ($this->verification()->exists()) {
+            $this->verification->delete();
+        }
 
         $code = random_int(100000, 999999);
 
@@ -112,13 +119,17 @@ trait Verifiable
 
     public function verifyOtpCode($code): bool
     {
-        if (! $this->verification()->exists()) return false;
+        if (! $this->verification()->exists()) {
+            return false;
+        }
 
         if (
-            !Crypt::decryptString($this->verification->content) === $code ||
+            ! Crypt::decryptString($this->verification->content) === $code ||
             Carbon::now()->greaterThan($this->verification->expired_at) ||
             $this->email_verified_at
-        ) return false;
+        ) {
+            return false;
+        }
 
         $this->email_verified_at = now();
         $this->save();
@@ -130,7 +141,7 @@ trait Verifiable
 
     public function sendEmailVerificationCode(): void
     {
-        if(!$this->hasVerifiedEmail()) {
+        if (! $this->hasVerifiedEmail()) {
             match (config('auth-manager.use_jobs')) {
                 true => AuthEmailVerificationCode::dispatch($this),
                 false => Mail::to($this->email)->send(new SendVerificationCode($this)),

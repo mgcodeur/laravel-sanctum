@@ -32,8 +32,7 @@ class SocialiteCallback
                     'provider_id' => $user->id,
                 ]
             );
-        }
-        else {
+        } else {
             $authUser = LaravelSanctum::getAuthModel()::create([
                 'name' => $user->name,
                 'email' => $user->email,
@@ -47,6 +46,7 @@ class SocialiteCallback
                 'provider' => $provider,
             ]);
         }
+
         return $authUser;
     }
 }

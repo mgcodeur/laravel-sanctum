@@ -40,7 +40,7 @@ class SocialiteRedirectToProvider
             'provider' => 'required|string|in:github,google,facebook',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 400);

@@ -28,6 +28,6 @@ Route::prefix(config('auth-manager.routes.auth.prefix'))->group(function () {
     /**
      * Socialite
      */
-    Route::post(config('auth-manager.routes.auth.socialite.redirect').'/{provider}', SocialiteRedirectToProvider::class);
+    Route::post(config('auth-manager.routes.auth.socialite.redirect'), SocialiteRedirectToProvider::class);
     Route::get('{provider}/'.config('auth-manager.routes.auth.socialite.callback'), SocialiteCallback::class);
 });

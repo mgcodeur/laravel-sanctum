@@ -21,7 +21,7 @@ class VerifyLinkController
     /**
      * @OA\Post(
      *      path="/api/v1/auth/resend-link",
-     *      tags={"Auth"},
+     *      tags={"Auth verification"},
      *      summary="Api Pour Re-envoyer le lien de confirmation via e-mail (Afin que l'utilisateur puisse confirmer son email)",
      *      description="Afin que l'utilisateur puisse confirmer son email, il faut re-envoyer le lien de confirmation si l'utilisateur n'a pas reçu le lien de confirmation",
      *      @OA\Parameter(

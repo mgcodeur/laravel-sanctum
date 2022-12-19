@@ -21,25 +21,32 @@ class SocialiteCallback
 
     private function findOrCreateUser($user, $provider)
     {
-        return LaravelSanctum::getAuthModel()::where('email', $user->email)
-                ->whereHas('socialAccounts', function ($query) use ($provider) {
-                    $query->where('provider', $provider);
-                })
-                ->firstOr(function () use ($user, $provider) {
-                    $auth = LaravelSanctum::getAuthModel()::create([
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'email_verified_at' => Carbon::now(),
-                        'password' => bcrypt('password_default@@mg-sanctum'.time()),
-                    ]);
+        //find user by email
+        $authUser = LaravelSanctum::getAuthModel()::where('email', $user->email)->first();
 
-                    SocialAccount::create([
-                        'user_id' => $auth->id,
-                        'provider' => $provider,
-                        'provider_id' => $user->id,
-                    ]);
+        if ($authUser) {
+            $authUser->socialAccounts()->updateOrCreate(
+                [
+                    'user_id' => $authUser->id,
+                    'provider' => $provider,
+                    'provider_id' => $user->id,
+                ]
+            );
+        } else {
+            $authUser = LaravelSanctum::getAuthModel()::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'email_verified_at' => Carbon::now(),
+                'password' => bcrypt($user->id),
+            ]);
 
-                    return $auth;
-                });
+            SocialAccount::create([
+                'user_id' => $authUser->id,
+                'provider_id' => $user->id,
+                'provider' => $provider,
+            ]);
+        }
+
+        return $authUser;
     }
 }

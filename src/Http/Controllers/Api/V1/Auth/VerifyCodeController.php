@@ -9,7 +9,7 @@ class VerifyCodeController
     /**
      * @OA\Post(
      *      path="/api/v1/auth/verify-code",
-     *      tags={"Auth"},
+     *      tags={"Auth verification"},
      *      security={ {"sanctum": {} }},
      *      summary="Api Pour vérifier le code envoyée via OTP (Pour vérifier l'utilisateur)",
      *      description="Afin de vérifier l'utilisateur, il faut entrer le code reçu par email",
@@ -53,7 +53,7 @@ class VerifyCodeController
     /**
      * @OA\Post(
      *      path="/api/v1/auth/resend-code",
-     *      tags={"Auth"},
+     *      tags={"Auth verification"},
      *      summary="Api Resend Code (Re-envoye le code par email)",
      *      description="Re-envoye le code par email",
      *      security={ {"sanctum": {} }},

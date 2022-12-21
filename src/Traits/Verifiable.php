@@ -75,19 +75,13 @@ trait Verifiable
     {
         $verification = Verification::where('content', $token)->first();
 
-        if (Carbon::now()->greaterThan($verification->expires_at)) {
-            exit('Link expired');
-        }
+        if (Carbon::now()->greaterThan($verification->expires_at)) exit('Link expired');
 
         $user = self::where('email', Crypt::decryptString($verification->content))->first();
 
-        if (! $user) {
-            exit('User not found');
-        }
+        if (! $user) exit('User not found');
 
-        if ($user->email_verified_at) {
-            exit('User already verified');
-        }
+        if ($user->email_verified_at) exit('User already verified');
 
         $user->email_verified_at = now();
         $user->save();
@@ -100,9 +94,7 @@ trait Verifiable
     /** Verification code (otp) helpers. **/
     public function generateVerificationCode(): string
     {
-        if ($this->verification()->exists()) {
-            $this->verification->delete();
-        }
+        if ($this->verification()->exists()) $this->verification->delete();
 
         $code = random_int(100000, 999999);
 

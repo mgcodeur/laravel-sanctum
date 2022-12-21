@@ -16,7 +16,7 @@ return [
             'verify_code' => 'verify-code',
             'resend_link' => 'resend-link',
             'resend_code' => 'resend-code',
-
+            'avatar' => 'avatar',
             'socialite' => [
                 'redirect' => 'redirect',
                 'callback' => 'callback',

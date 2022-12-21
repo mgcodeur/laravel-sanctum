@@ -8,7 +8,7 @@ This package is made to facilitate the implementation of member management with 
  1. `composer require mgcodeur/laravel-sanctum`
  2. `php artisan mg-sanctum:install` 
  3. use `Manageable` and `Verifiable` trait in your User or Custom Auth Model
- 4. add `email_verified_at` to fillable in your User or Custom Auth Model
+ 4. add `email_verified_at`, `avatar` to fillable in your User or Custom Auth Model
  5. in your .env change set QUEUE_CONNECTION section to
 ```javascript
 QUEUE_CONNECTION=database
@@ -77,3 +77,15 @@ MAIL_FROM_NAME="${APP_NAME}"
     'redirect' => env('GITHUB_REDIRECT')
 ],
 ```
+### Upload
+
+1. add this into config/filesystem
+````php
+'avatar' => [ // this filesystem is for user avatar module
+    'driver' => 'local', // your driver
+    'root' => storage_path('app/public/avatars'), 
+    'url' => env('APP_URL').'/storage/avatars', //url jusqu'au dossier
+    'visibility' => 'public', // visibility of folder
+    'throw' => false,
+],
+````

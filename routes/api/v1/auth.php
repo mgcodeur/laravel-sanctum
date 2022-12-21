@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\AvatarController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\LoginController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\ProfileController;
 use Mgcodeur\LaravelSanctum\Http\Controllers\Api\V1\Auth\RegisterController;
@@ -30,4 +31,11 @@ Route::prefix(config('auth-manager.routes.auth.prefix'))->group(function () {
      */
     Route::post(config('auth-manager.routes.auth.socialite.redirect'), SocialiteRedirectToProvider::class);
     Route::get('{provider}/'.config('auth-manager.routes.auth.socialite.callback'), SocialiteCallback::class);
+
+    /**
+     * Avatar
+     */
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::put(config('auth-manager.routes.auth.avatar'), [AvatarController::class, 'updateAvatar']);
+    });
 });

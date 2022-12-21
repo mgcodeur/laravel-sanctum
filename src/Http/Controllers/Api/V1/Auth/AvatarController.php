@@ -66,33 +66,33 @@ class AvatarController
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
-                "data" => $validator->errors()
+                'data' => $validator->errors(),
             ]);
         }
 
         $fileName = uniqid().'.'.$request->file('avatar')->getClientOriginalName();
         $request->file('avatar')->storeAs('', $fileName, 'avatar');
-        $fullPath = Storage::disk('avatar')->getConfig()["url"].'/'.$fileName;
+        $fullPath = Storage::disk('avatar')->getConfig()['url'].'/'.$fileName;
 
         Media::create(
             [
-                "name" => $fileName,
-                "mediable_type" => LaravelSanctum::getAuthModel(),
-                "mediable_id" => auth()->user()->id,
-                "group" => "avatar",
-                "disk" => "avatar",
-                "full_path" => $fullPath
+                'name' => $fileName,
+                'mediable_type' => LaravelSanctum::getAuthModel(),
+                'mediable_id' => auth()->user()->id,
+                'group' => 'avatar',
+                'disk' => 'avatar',
+                'full_path' => $fullPath,
             ]
         );
 
         auth()->user()->update([
-            "avatar" => $fullPath
+            'avatar' => $fullPath,
         ]);
 
         return response()->json([
-            'message' => 'Avatar updated successfully'
+            'message' => 'Avatar updated successfully',
         ]);
     }
 }

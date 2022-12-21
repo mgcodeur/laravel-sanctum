@@ -26,7 +26,7 @@ class LaravelSanctumServiceProvider extends PackageServiceProvider
                 'mg_sanctum_01_create_verifications_table',
                 'mg_sanctum_02_create_social_accounts_table',
                 'mg_sanctum_03_add_avatar_to_default_auth_table',
-                'mg_sanctum_04_create_media_table'
+                'mg_sanctum_04_create_media_table',
             ])
             ->hasCommand(LaravelSanctumCommand::class);
 

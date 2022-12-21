@@ -35,7 +35,6 @@ class ProfileController
      *      security={ {"sanctum": {} }},
      *      summary="Api update profile (Pour modifier le profile de l'utilisateur)",
      *      description="Retourne les informations de l'utilisateur une fois modifié",
-     *
      *      @OA\Parameter(
      *         name="name",
      *         in="query",

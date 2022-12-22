@@ -28,10 +28,12 @@ trait Verifiable
      */
     public function sendEmailVerificationLink()
     {
-        if (! $this->hasVerifiedEmail()) match (config('auth-manager.use_jobs')) {
-            true => AuthEmailVerificationLink::dispatch($this),
-            false => Mail::to($this->email)->send(new SendVerificationLink($this)),
-        };
+        if (! $this->hasVerifiedEmail()) {
+            match (config('auth-manager.use_jobs')) {
+                true => AuthEmailVerificationLink::dispatch($this),
+                false => Mail::to($this->email)->send(new SendVerificationLink($this)),
+            };
+        }
     }
 
     /**
@@ -39,7 +41,9 @@ trait Verifiable
      */
     public function generateVerificationHash()
     {
-        if ($this->verification()->exists()) $this->verification->delete();
+        if ($this->verification()->exists()) {
+            $this->verification->delete();
+        }
 
         $verification = Verification::create([
             'verifiable_id' => $this->id,
@@ -123,7 +127,9 @@ trait Verifiable
             ! Crypt::decryptString($this->verification->content) === $code ||
             Carbon::now()->greaterThan($this->verification->expired_at) ||
             $this->email_verified_at
-        ) return false;
+        ) {
+            return false;
+        }
 
         $this->email_verified_at = now();
         $this->save();
@@ -135,9 +141,11 @@ trait Verifiable
 
     public function sendEmailVerificationCode(): void
     {
-        if (! $this->hasVerifiedEmail()) match (config('auth-manager.use_jobs')) {
-            true => AuthEmailVerificationCode::dispatch($this),
-            false => Mail::to($this->email)->send(new SendVerificationCode($this)),
-        };
+        if (! $this->hasVerifiedEmail()) {
+            match (config('auth-manager.use_jobs')) {
+                true => AuthEmailVerificationCode::dispatch($this),
+                false => Mail::to($this->email)->send(new SendVerificationCode($this)),
+            };
+        }
     }
 }

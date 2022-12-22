@@ -42,9 +42,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 * )
 */
 ```
- 1. `php artisan l5-swagger:generate`
- 2. `php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"`
- 3. Uncomment this line in `config/l5-swagger.php`
+
+ 1. `php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"`
+ 2. add `base_path('vendor/mgcodeur/laravel-sanctum/src'),` in the `paths.annotations` section of `config/l5-swagger.php`
+ 3. `php artisan l5-swagger:generate`
+ 4. Uncomment this line in `config/l5-swagger.php`
 
 ````php
 'sanctum'  => [ // Unique name of security

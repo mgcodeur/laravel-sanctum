@@ -8,8 +8,6 @@ use Mgcodeur\LaravelSanctum\Models\SocialAccount;
 
 trait Manageable
 {
-    use Verifiable;
-
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
